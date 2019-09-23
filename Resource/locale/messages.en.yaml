@@ -1,0 +1,4 @@
+image_compress.name: image compress
+image_compress.config: config
+image_compress.enable: enable / disable
+image_compress.api_key: API Key

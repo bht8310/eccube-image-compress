@@ -1,0 +1,12 @@
+{
+  "name": "ec-cube/ImageCompress",
+  "version": "1.0.0",
+  "description": "画像圧縮",
+  "type": "eccube-plugin",
+  "require": {
+    "ec-cube/plugin-installer": "~0.0.6"
+  },
+  "extra": {
+    "code": "ImageCompress"
+  }
+}
