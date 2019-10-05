@@ -94,4 +94,44 @@ class ImageCompress
 
         return $this;
     }
+
+    /**
+     * 実行可能かチェック
+     *
+     * @return boolean
+     */
+    public function isDoable(){
+        if(! $this->getEnable()) return false;
+        if(! $this->getApiKey()) return false;
+
+        return true;
+    }
+
+    /**
+     * @return string
+     */
+    public function getApiHeaderValue(){
+        $api_key = base64_encode('api:'.$this->getApiKey());
+        return $api_key;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isEnableExt($file_name){
+       if(preg_match("/\.([\w]+)$/",$file_name,$regs)){
+           $ext = $regs[1];
+       } else {
+           return false;
+       }
+
+       $ext = strtolower($ext);
+       switch($ext){
+           case 'jpg':
+           case 'jpeg':
+           case 'png':
+               return true;
+       }
+       return false;
+    }
 }

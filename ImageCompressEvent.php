@@ -56,18 +56,12 @@ class ImageCompressEvent implements EventSubscriberInterface
      */
     public function doCompress(EventArgs $event)
     {
-        /* 設定の取得 */
-        if( ! $this->imageCompressConfig->getId()){
-            return ;
-        }
-
-        /* 有効/無効 */
-        if(! $this->imageCompressConfig->getEnable()){
-            return ;
-        }
-
         $files = $event->getArgument('files');
         if(! is_array($files)){
+            return ;
+        }
+
+        if(! $this->imageCompressConfig->isDoable()){
             return ;
         }
 
@@ -83,7 +77,7 @@ class ImageCompressEvent implements EventSubscriberInterface
      */
     private function getCompressedFile($files){
         /* APIキーの設定 */
-        $api_key = base64_encode('api:'.$this->imageCompressConfig->getApiKey());
+        $api_key = $this->imageCompressConfig->getApiHeaderValue();
         $api_url = 'https://api.tinify.com/shrink';
 
         $header = [
@@ -95,6 +89,8 @@ class ImageCompressEvent implements EventSubscriberInterface
 
             $file_path = $this->eccubeConfig['eccube_temp_image_dir']."/".$file;
             if(!file_exists($file_path)) continue;
+
+            if(!$this->imageCompressConfig->isEnableExt($file))continue;
 
             $uncompressed_file = file_get_contents($file_path);
 
